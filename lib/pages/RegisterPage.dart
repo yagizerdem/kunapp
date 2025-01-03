@@ -1,9 +1,10 @@
-import 'dart:ffi';
-
+import 'package:app/app.dart';
 import 'package:app/pages/LogInPage.dart';
 import 'package:app/utils/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -23,19 +24,64 @@ class _RegisterPageState extends State<RegisterPage> {
     bool flag = _formKey.currentState!.validate();
     if (flag) {
       _formKey.currentState!.save();
-      signUp(_email, _password);
+      signUp(_email, _password, _username);
     }
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password, String username) async {
+    UserCredential? userCredential = null;
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      BuildContext context = navigatorKey.currentContext!;
+
+      // sign up
+      userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print("User signed up successfully!");
+
+      // Get user ID
+      String uid = userCredential.user?.uid ?? "";
+
+      // create profile
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'username': username,
+        'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      String message = "User signed up successfully!";
+      toastification.show(
+        context: context, // optional if you use ToastificationWrapper
+        title: Text(
+          message,
+          maxLines: 10, // Limit to 2 lines
+          overflow: TextOverflow.ellipsis, // Add ellipsis for longer text
+        ),
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+
+      // redirect to  log in page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LogInPage()),
+      );
+      print(message);
     } catch (e) {
-      print("Error signing up: $e");
+      // roll back
+      await userCredential?.user?.delete();
+
+      String message = "Error signing up: $e";
+      toastification.show(
+        context: context, // optional if you use ToastificationWrapper
+        title: Text(
+          message,
+          maxLines: 10, // Limit to 2 lines
+          overflow: TextOverflow.ellipsis, // Add ellipsis for longer text
+        ),
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+      print(message);
     }
   }
 

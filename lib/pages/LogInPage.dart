@@ -1,6 +1,10 @@
+import 'package:app/app.dart';
+import 'package:app/pages/HomePage.dart';
 import 'package:app/pages/RegisterPage.dart';
 import 'package:app/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -19,8 +23,49 @@ class _LogInPageState extends State<LogInPage> {
     bool flag = _formKey.currentState!.validate();
     if (flag) {
       _formKey.currentState!.save();
-      print(_password);
-      print(_email);
+      logIn(_email, _password);
+    }
+  }
+
+  Future<void> logIn(String email, String password) async {
+    // log in the user
+    try {
+      BuildContext context = navigatorKey.currentContext!;
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      String message = "User login successfully!";
+      toastification.show(
+        context: context, // optional if you use ToastificationWrapper
+        title: Text(
+          message,
+          maxLines: 10, // Limit to 2 lines
+          overflow: TextOverflow.ellipsis, // Add ellipsis for longer text
+        ),
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+
+      // print(userCredential.user);
+      // print(userCredential.user?.uid);
+      // print(userCredential.additionalUserInfo);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } catch (e) {
+      String message = "Error occurecd : $e";
+      toastification.show(
+        context: context, // optional if you use ToastificationWrapper
+        title: Text(
+          message,
+          maxLines: 10, // Limit to 2 lines
+          overflow: TextOverflow.ellipsis, // Add ellipsis for longer text
+        ),
+        autoCloseDuration: const Duration(seconds: 5),
+      );
     }
   }
 
