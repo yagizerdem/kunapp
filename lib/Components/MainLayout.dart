@@ -14,7 +14,9 @@ class MainLayout extends StatelessWidget {
     final mainScreenProvider = Provider.of<MainScreenProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("kun app"),
+        title: const Text(
+          "kun app",
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

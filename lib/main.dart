@@ -1,4 +1,5 @@
 import 'package:app/Providers/MainScreenProvider.dart';
+import 'package:app/Providers/ProfileProvider.dart';
 import 'package:app/app.dart';
 import 'package:app/utils/AuthWrapper.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
       child: const ToastificationWrapper(
         child: App(),
