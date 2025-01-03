@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:app/pages/LogInPage.dart';
 import 'package:app/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -22,9 +23,19 @@ class _RegisterPageState extends State<RegisterPage> {
     bool flag = _formKey.currentState!.validate();
     if (flag) {
       _formKey.currentState!.save();
-      print(_username);
-      print(_password);
-      print(_email);
+      signUp(_email, _password);
+    }
+  }
+
+  Future<void> signUp(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print("User signed up successfully!");
+    } catch (e) {
+      print("Error signing up: $e");
     }
   }
 

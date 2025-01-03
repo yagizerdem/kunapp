@@ -1,0 +1,21 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "kunapp-b877c",
+          "appId": "1:715290162417:android:d0ab563ceaadc6f96aa550",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "kunapp-b877c",
+          "configurations": {
+            "android": "1:715290162417:android:d0ab563ceaadc6f96aa550"
+          }
+        }
+      }
+    }
+  }
+}

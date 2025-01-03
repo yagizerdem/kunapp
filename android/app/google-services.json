@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "715290162417",
+    "project_id": "kunapp-b877c",
+    "storage_bucket": "kunapp-b877c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715290162417:android:d0ab563ceaadc6f96aa550",
+        "android_client_info": {
+          "package_name": "com.kunapp.mobile.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfVu5rzHRFwWCiajREwkCkSvBglD_0dEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
