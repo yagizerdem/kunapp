@@ -1,4 +1,5 @@
 import 'package:app/pages/RegisterPage.dart';
+import 'package:app/utils/AuthWrapper.dart';
 import 'package:app/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +11,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        navigatorKey: navigatorKey,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: AppColors.themeSwatch,
-        ),
-        home: const RegisterPage());
+      navigatorKey: navigatorKey,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: AppColors.themeSwatch,
+      ),
+      home: const AuthWrapper(),
+    );
   }
 }

@@ -66,7 +66,7 @@ class _LogInPageState extends State<LogInPage> {
         ),
         autoCloseDuration: const Duration(seconds: 5),
       );
-    }
+    } finally {}
   }
 
   @override
