@@ -1,5 +1,6 @@
 import 'package:app/enums/FriendRequestState.dart';
 import 'package:app/models/FriendRequestModel.dart';
+import 'package:app/utils/AppError.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,71 @@ class _FrindRequestPageState extends State<FrindRequestPage> {
     }
   }
 
+  void Reject(int requestIndex) async {
+    try {
+      FriendRequestModel model = requestList[requestIndex];
+      // get request form db
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('friendRequests')
+          .where('fromUid', isEqualTo: model.fromUid)
+          .where('destUid', isEqualTo: model.destUid)
+          .where('state',
+              isEqualTo: FriendRequestState.Pending.toString().split('.').last)
+          .get();
+      if (!querySnapshot.docs.isNotEmpty) {
+        throw CustomException("friend request dont exist in database");
+      }
+      String modelFromDbUid = querySnapshot.docs.first.id;
+      FriendRequestModel modelFromDb =
+          FriendRequestModel.fromJson(querySnapshot.docs.first.data());
+
+      // update FrindRequest status to rejected
+      await FirebaseFirestore.instance
+          .collection('friendRequests') // Specify the collection
+          .doc(modelFromDbUid) // Provide the document ID
+          .update({
+        'state': FriendRequestState.Rejected.toString().split('.').last,
+      });
+
+      toastification.show(
+        title: const Text(
+          "rejected successfully",
+          maxLines: 10,
+          overflow: TextOverflow.ellipsis,
+        ),
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+
+      // remove from list
+      setState(() {
+        requestList.removeAt(requestIndex);
+      });
+      // done
+    } catch (err) {
+      toastification.show(
+        title: const Text(
+          "internal server error",
+          maxLines: 10,
+          overflow: TextOverflow.ellipsis,
+        ),
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+    }
+  }
+
+  void Approve(int requestIndex) async {
+    try {} catch (err) {
+      toastification.show(
+        title: const Text(
+          "internal server error",
+          maxLines: 10,
+          overflow: TextOverflow.ellipsis,
+        ),
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style =
@@ -92,12 +158,16 @@ class _FrindRequestPageState extends State<FrindRequestPage> {
                           children: [
                             ElevatedButton(
                               style: style,
-                              onPressed: () {},
+                              onPressed: () {
+                                Approve(index);
+                              },
                               child: const Text('Approve'),
                             ),
                             ElevatedButton(
                               style: style,
-                              onPressed: () {},
+                              onPressed: () {
+                                Reject(index);
+                              },
                               child: const Text('Reject'),
                             ),
                           ],
