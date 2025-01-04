@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/pages/LogInPage.dart';
+import 'package:app/utils/SD.dart';
 import 'package:app/utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,6 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'username': username,
         'email': email,
         'createdAt': FieldValue.serverTimestamp(),
+        "profileImageUrl": SD["anonimousProfileImage"]
       });
 
       String message = "User signed up successfully!";
@@ -66,19 +68,12 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       print(message);
     } catch (e) {
-      // roll back
-      await userCredential?.user?.delete();
+      if (e is FirebaseAuthException) {
+        // roll back
+        await userCredential?.user?.delete();
+      }
 
       String message = "Error signing up: $e";
-      toastification.show(
-        context: context, // optional if you use ToastificationWrapper
-        title: Text(
-          message,
-          maxLines: 10, // Limit to 2 lines
-          overflow: TextOverflow.ellipsis, // Add ellipsis for longer text
-        ),
-        autoCloseDuration: const Duration(seconds: 5),
-      );
       print(message);
     }
   }

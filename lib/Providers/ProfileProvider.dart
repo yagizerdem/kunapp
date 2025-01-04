@@ -2,24 +2,26 @@ import 'dart:io';
 
 import 'package:app/pages/HomePage.dart';
 import 'package:app/pages/ProfilePage.dart';
+import 'package:app/utils/SD.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ProfileProvider with ChangeNotifier {
-  File? _profileImage = null;
   String _username = "";
   String _email = "";
+  String _profileImageUrl = SD["anonimousProfileImage"].toString();
   int _followerCount = 0;
   int _followingCount = 0;
   bool _isInitialized = false;
 
-  get profileImage => _profileImage;
   get userName => _username;
   get email => _email;
   get followerCount => _followerCount;
   get followingCount => _followingCount;
+  get profileImageUrl => _profileImageUrl;
+
   bool get isInitialized => _isInitialized;
 
   ProfileProvider() {
@@ -45,6 +47,7 @@ class ProfileProvider with ChangeNotifier {
         _followingCount = snapshot.data()?['followingCount'] ?? 0;
         _username = snapshot.data()?['username'] ?? "";
         _email = snapshot.data()?['email'] ?? "";
+        _profileImageUrl = snapshot.data()?["profileImageUrl"] ?? "";
       }
       _isInitialized = true;
       notifyListeners();
@@ -53,8 +56,8 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 
-  void setProfileImage(File file) {
-    _profileImage = file;
+  void setProfileImage(String url) {
+    _profileImageUrl = url;
     notifyListeners(); // Notify widgets listening to this state
   }
 

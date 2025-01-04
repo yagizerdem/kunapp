@@ -26,10 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
     double height = MediaQuery.sizeOf(context).height;
 
     ImageProvider getProfileImage() {
-      File? profileImage = profileProvider.profileImage;
-      return profileImage != null
-          ? FileImage(profileProvider.profileImage)
-          : NetworkImage(SD["anonimousProfileImage"].toString());
+      String profileImage = profileProvider.profileImageUrl;
+      return NetworkImage(profileImage);
     }
 
     void goToSettings() {
