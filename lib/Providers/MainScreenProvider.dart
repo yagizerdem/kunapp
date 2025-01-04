@@ -3,7 +3,7 @@ import 'package:app/pages/ProfilePage.dart';
 import 'package:flutter/material.dart';
 
 class MainScreenProvider with ChangeNotifier {
-  Widget _mainScreen = HomePage();
+  Widget _mainScreen = const HomePage();
 
   Widget get mainScreen => _mainScreen;
 

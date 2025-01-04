@@ -31,8 +31,6 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> signUp(String email, String password, String username) async {
     UserCredential? userCredential = null;
     try {
-      BuildContext context = navigatorKey.currentContext!;
-
       // sign up
       userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(

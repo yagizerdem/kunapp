@@ -30,7 +30,6 @@ class _LogInPageState extends State<LogInPage> {
   Future<void> logIn(String email, String password) async {
     // log in the user
     try {
-      BuildContext context = navigatorKey.currentContext!;
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -50,11 +49,6 @@ class _LogInPageState extends State<LogInPage> {
       // print(userCredential.user);
       // print(userCredential.user?.uid);
       // print(userCredential.additionalUserInfo);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
     } catch (e) {
       String message = "Error occurecd : $e";
       toastification.show(

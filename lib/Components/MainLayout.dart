@@ -19,9 +19,8 @@ class MainLayout extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: mainScreenProvider.mainScreen,
-      ),
+          padding: const EdgeInsets.all(16.0),
+          child: mainScreenProvider.mainScreen),
       bottomNavigationBar: const Footer(), // Footer widget applied here
     );
   }

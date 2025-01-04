@@ -1,7 +1,7 @@
+import 'package:app/Providers/CustomAuthProvider.dart';
 import 'package:app/Providers/MainScreenProvider.dart';
 import 'package:app/Providers/ProfileProvider.dart';
 import 'package:app/app.dart';
-import 'package:app/utils/AuthWrapper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -15,11 +15,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  print("Firebase initialized");
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => CustomAuthProvider()),
       ],
       child: const ToastificationWrapper(
         child: App(),
