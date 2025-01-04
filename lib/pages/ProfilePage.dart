@@ -4,6 +4,7 @@ import 'package:app/Components/MainLayout.dart';
 import 'package:app/Components/ProfileImage.dart';
 import 'package:app/Components/ProfileStats.dart';
 import 'package:app/Providers/ProfileProvider.dart';
+import 'package:app/pages/FriendRequestPage.dart';
 import 'package:app/pages/HomePage.dart';
 import 'package:app/pages/SettingsPage.dart';
 import 'package:app/utils/SD.dart';
@@ -34,6 +35,13 @@ class _ProfilePageState extends State<ProfilePage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const SettingsPage()),
+      );
+    }
+
+    void goToFriendRequests() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const FrindRequestPage()),
       );
     }
 
@@ -68,6 +76,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 goToSettings();
               },
               child: const Icon(Icons.settings),
+            ),
+          ),
+          Positioned(
+            bottom: 10, // Position the FAB relative to the bottom
+            left: 10,
+            child: FloatingActionButton(
+              onPressed: () {
+                goToFriendRequests();
+              },
+              child: const Icon(Icons.people),
             ),
           ),
         ],
