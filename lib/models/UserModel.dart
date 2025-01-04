@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
@@ -8,6 +10,8 @@ class UserModel {
   final int followingCount;
   final DateTime createdAt;
   final String profileImageUrl;
+  final Array followers;
+  final Array followings;
 
   UserModel(
       {required this.id,
@@ -16,17 +20,22 @@ class UserModel {
       required this.createdAt,
       required this.profileImageUrl,
       required this.followerCount,
-      required this.followingCount});
+      required this.followingCount,
+      required this.followers,
+      required this.followings});
 
   // Factory constructor to create a User object from Firestore data
   factory UserModel.fromJson(String id, Map<String, dynamic> json) {
     return UserModel(
-        id: id,
-        username: json['username'] ?? '',
-        email: json['email'] ?? '',
-        followerCount: json['followerCount'] ?? 0,
-        followingCount: json['followingCount'] ?? 0,
-        createdAt: (json['createdAt'] as Timestamp).toDate(),
-        profileImageUrl: json['profileImageUrl'] ?? '');
+      id: id,
+      username: json['username'] ?? '',
+      email: json['email'] ?? '',
+      followerCount: json['followerCount'] ?? 0,
+      followingCount: json['followingCount'] ?? 0,
+      createdAt: (json['createdAt'] as Timestamp).toDate(),
+      profileImageUrl: json['profileImageUrl'] ?? '',
+      followers: json['followers'] ?? [],
+      followings: json['following'] ?? [],
+    );
   }
 }
