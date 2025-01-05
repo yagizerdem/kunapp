@@ -1,3 +1,4 @@
+import 'package:app/Components/PostGrid.dart';
 import 'package:app/Components/ProfileImage.dart';
 import 'package:app/Components/ProfileStats.dart';
 import 'package:app/Providers/ProfileProvider.dart';
@@ -134,6 +135,7 @@ class _OtherProfileState extends State<OtherProfile> {
                   },
                   child: const Text('Send Friend Request'),
                 ),
+                PostGrid(uid: widget.usermodel.id)
               ],
             ),
           ),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:app/Components/AddPost.dart';
 import 'package:app/Components/MainLayout.dart';
+import 'package:app/Components/PostGrid.dart';
 import 'package:app/Components/ProfileImage.dart';
 import 'package:app/Components/ProfileStats.dart';
 import 'package:app/Providers/ProfileProvider.dart';
@@ -10,6 +11,7 @@ import 'package:app/pages/HomePage.dart';
 import 'package:app/pages/SettingsPage.dart';
 import 'package:app/utils/SD.dart';
 import 'package:app/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,6 +50,8 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -69,6 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         email: profileProvider.email,
                         spacing: 60,
                       ),
+                      PostGrid(uid: uid)
                     ]
                   : [
                       AddPost(),
